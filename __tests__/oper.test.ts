@@ -42,5 +42,21 @@ test( "Math", (done) => {
   expect(mult).toBeDefined();
   expect(typeof mult).toBe("function");
   expect(mult!.apply(logic,[{},1,2,"3",4,5])).toEqual(120);
+  
+  let sum = logic.oper("+");
+  expect(sum).toBeDefined();
+  expect(typeof sum).toBe("function");
+  expect(sum!.apply(logic,[{},2,2])).toEqual(4);
+  expect(sum!.apply(logic,[{},2,2,2])).toEqual(6);
+  expect(sum!.apply(logic,[{},"2",2,2])).toEqual(6);
+
+  
+  let div = logic.oper("/");
+  expect(div).toBeDefined();
+  expect(typeof div).toBe("function");
+  
+  let sub = logic.oper("-");
+  expect(sub).toBeDefined();
+  expect(typeof sub).toBe("function");
   done();
 })
