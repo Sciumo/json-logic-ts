@@ -54,9 +54,13 @@ test( "Math", (done) => {
   let div = logic.oper("/");
   expect(div).toBeDefined();
   expect(typeof div).toBe("function");
+  expect(div!.apply(logic,[{},2,2])).toEqual(1);
+  expect(div!.apply(logic,[{},"4",2])).toEqual(2);
   
   let sub = logic.oper("-");
   expect(sub).toBeDefined();
   expect(typeof sub).toBe("function");
+  expect(sub!.apply(logic,[{},2,2])).toEqual(0);
+  expect(sub!.apply(logic,[{},"6",2])).toEqual(4);
   done();
 })
