@@ -18,12 +18,17 @@ test( "Relational", (done) => {
   expect(lt).toBeDefined();
   expect(typeof lt).toBe("function");
   expect(lt!.apply(logic,[{},1,2])).toBeTruthy();
+  expect(lt!.apply(logic,[{},1,2,3])).toBeTruthy();
+  expect(lt!.apply(logic,[{},1,4,3])).toBeFalsy();
   expect(lt!.apply(logic,[{},2,3,1])).toBeFalsy();
   
   let lte = logic.oper("<=");
   expect(lte).toBeDefined();
   expect(typeof lte).toBe("function");
+  expect(lte!.apply(logic,[{},2,2])).toBeTruthy();
   expect(lte!.apply(logic,[{},1,2,2])).toBeTruthy();
+  expect(lte!.apply(logic,[{},1,2,2])).toBeTruthy();
+  expect(lte!.apply(logic,[{},1,3,2])).toBeTruthy();
   expect(!lte!.apply(logic,[{},1,2,2])).toBeFalsy();
   
   let gt = logic.oper(">");
@@ -37,11 +42,25 @@ test( "Relational", (done) => {
   expect(typeof gte).toBe("function");
   expect(gte!.apply(logic,[{},2,1,1])).toBeTruthy();
   expect(!gte!.apply(logic,[{},2,1,1])).toBeFalsy();
+
+  let min = logic.oper("min")
+  expect(min).toBeDefined();
+  expect(typeof min).toBe("function");
+  expect(min!.apply(logic,[{},1,2,3])).toEqual(1)
+  expect(min!.apply(logic,[{},3,2,1])).toEqual(1)
+  expect(min!.apply(logic,[{},2,1,3])).toEqual(1)
+
+  let max = logic.oper("min")
+  expect(max).toBeDefined();
+  expect(typeof max).toBe("function");
+  expect(max!.apply(logic,[{},1,2,3])).toEqual(3)
+  expect(max!.apply(logic,[{},3,2,1])).toEqual(3)
+  expect(max!.apply(logic,[{},2,3,1])).toEqual(3)
   done();
 })
 
 
-test( "Math", (done) => {
+test( "Arithmetic", (done) => {
   let mult = logic.oper("*");
   expect(mult).toBeDefined();
   expect(typeof mult).toBe("function");
@@ -65,5 +84,22 @@ test( "Math", (done) => {
   expect(typeof sub).toBe("function");
   expect(sub!.apply(logic,[{},2,2])).toEqual(0);
   expect(sub!.apply(logic,[{},"6",2])).toEqual(4);
+
+  let mod = logic.oper("%")
+  expect(mod).toBeDefined();
+  expect(typeof mod).toBe("function");
+  expect(mod!.apply(logic,[{},50,2])).toEqual(0)
+  expect(mod!.apply(logic,[{},77,2])).toEqual(1)
+  expect(mod!.apply(logic,[{},50,3])).toEqual(2)
   done();
 })
+
+test("Logic", (done) => {
+  done();
+})
+
+
+test("Access", (done) => {
+  done();
+})
+
