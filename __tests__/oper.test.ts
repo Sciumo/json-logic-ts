@@ -6,6 +6,7 @@ test( "Operator Lookup", (done) => {
   expect(logic).toBeDefined();
   expect(logic.operations).toBeDefined();
   expect(logic.operations.has("<")).toBeTruthy();
+  
   let op = logic.oper("<");
   expect(op).toBeDefined();
   expect(typeof op).toBe("function");
@@ -18,16 +19,19 @@ test( "Relational", (done) => {
   expect(typeof lt).toBe("function");
   expect(lt!.apply(logic,[{},1,2])).toBeTruthy();
   expect(lt!.apply(logic,[{},2,3,1])).toBeFalsy();
+  
   let lte = logic.oper("<=");
   expect(lte).toBeDefined();
   expect(typeof lte).toBe("function");
   expect(lte!.apply(logic,[{},1,2,2])).toBeTruthy();
   expect(!lte!.apply(logic,[{},1,2,2])).toBeFalsy();
+  
   let gt = logic.oper(">");
   expect(gt).toBeDefined();
   expect(typeof gt).toBe("function");
   expect(gt!.apply(logic,[{},2,1])).toBeTruthy();
   expect(!gt!.apply(logic,[{},2,1,0])).toBeFalsy();
+  
   let gte = logic.oper(">=");
   expect(gte).toBeDefined();
   expect(typeof gte).toBe("function");
@@ -49,7 +53,6 @@ test( "Math", (done) => {
   expect(sum!.apply(logic,[{},2,2])).toEqual(4);
   expect(sum!.apply(logic,[{},2,2,2])).toEqual(6);
   expect(sum!.apply(logic,[{},"2",2,2])).toEqual(6);
-
   
   let div = logic.oper("/");
   expect(div).toBeDefined();
