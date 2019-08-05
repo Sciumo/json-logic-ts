@@ -21,6 +21,7 @@ test( "Relational", (done) => {
   expect(lt!.apply(logic,[{},1,2,3])).toBeTruthy();
   expect(lt!.apply(logic,[{},1,4,3])).toBeFalsy();
   expect(lt!.apply(logic,[{},2,3,1])).toBeFalsy();
+
   
   let lte = logic.oper("<=");
   expect(lte).toBeDefined();
@@ -36,25 +37,23 @@ test( "Relational", (done) => {
   expect(typeof gt).toBe("function");
   expect(gt!.apply(logic,[{},2,1])).toBeTruthy();
   expect(!gt!.apply(logic,[{},2,1,0])).toBeFalsy();
+  expect(gt!.apply(logic,[{},2,1,0])).toEqual(!lte!.apply(logic,[{},2,1,0]));
   
   let gte = logic.oper(">=");
   expect(gte).toBeDefined();
   expect(typeof gte).toBe("function");
   expect(gte!.apply(logic,[{},2,1,1])).toBeTruthy();
   expect(!gte!.apply(logic,[{},2,1,1])).toBeFalsy();
+  expect(gte!.apply(logic,[{},2,1,1])).toEqual(!lt!.apply(logic,[{},2,1,1]));
   
   let ne = logic.oper("!=");
   expect(ne).toBeDefined();
   expect(typeof ne).toBe("function");
-
-  let notNot = logic.oper("!!");
-  expect(notNot).toBeDefined();
-  expect(typeof notNot).toBe("function");
-
-  let not = logic.oper("!");
-  expect(not).toBeDefined();
-  expect(typeof not).toBe("function");
-  done();
+  expect(ne!.apply(logic,[{},1,1])).toBeFalsy();
+  expect(ne!.apply(logic,[{},1,"1"])).toBeFalsy();
+  expect(ne!.apply(logic,[{},1,2])).toBeTruthy();
+  expect(ne!.apply(logic,[{},1,"2"])).toBeTruthy();
+  expect(ne!.apply(logic,[{},0,""])).toBeFalsy();
 })
 
 
