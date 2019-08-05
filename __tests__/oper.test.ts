@@ -42,6 +42,18 @@ test( "Relational", (done) => {
   expect(typeof gte).toBe("function");
   expect(gte!.apply(logic,[{},2,1,1])).toBeTruthy();
   expect(!gte!.apply(logic,[{},2,1,1])).toBeFalsy();
+  
+  let ne = logic.oper("!=");
+  expect(ne).toBeDefined();
+  expect(typeof ne).toBe("function");
+
+  let notNot = logic.oper("!!");
+  expect(notNot).toBeDefined();
+  expect(typeof notNot).toBe("function");
+
+  let not = logic.oper("!");
+  expect(not).toBeDefined();
+  expect(typeof not).toBe("function");
   done();
 })
 
