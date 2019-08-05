@@ -28,7 +28,7 @@ test( "Relational", (done) => {
   expect(lte!.apply(logic,[{},2,2])).toBeTruthy();
   expect(lte!.apply(logic,[{},1,2,2])).toBeTruthy();
   expect(lte!.apply(logic,[{},1,2,2])).toBeTruthy();
-  expect(lte!.apply(logic,[{},1,3,2])).toBeTruthy();
+  expect(lte!.apply(logic,[{},1,3,2])).toBeFalsy();
   expect(!lte!.apply(logic,[{},1,2,2])).toBeFalsy();
   
   let gt = logic.oper(">");
@@ -42,20 +42,6 @@ test( "Relational", (done) => {
   expect(typeof gte).toBe("function");
   expect(gte!.apply(logic,[{},2,1,1])).toBeTruthy();
   expect(!gte!.apply(logic,[{},2,1,1])).toBeFalsy();
-
-  let min = logic.oper("min")
-  expect(min).toBeDefined();
-  expect(typeof min).toBe("function");
-  expect(min!.apply(logic,[{},1,2,3])).toEqual(1)
-  expect(min!.apply(logic,[{},3,2,1])).toEqual(1)
-  expect(min!.apply(logic,[{},2,1,3])).toEqual(1)
-
-  let max = logic.oper("min")
-  expect(max).toBeDefined();
-  expect(typeof max).toBe("function");
-  expect(max!.apply(logic,[{},1,2,3])).toEqual(3)
-  expect(max!.apply(logic,[{},3,2,1])).toEqual(3)
-  expect(max!.apply(logic,[{},2,3,1])).toEqual(3)
   done();
 })
 
@@ -91,15 +77,6 @@ test( "Arithmetic", (done) => {
   expect(mod!.apply(logic,[{},50,2])).toEqual(0)
   expect(mod!.apply(logic,[{},77,2])).toEqual(1)
   expect(mod!.apply(logic,[{},50,3])).toEqual(2)
-  done();
-})
-
-test("Logic", (done) => {
-  done();
-})
-
-
-test("Access", (done) => {
   done();
 })
 
