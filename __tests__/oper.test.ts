@@ -21,7 +21,6 @@ test( "Relational", (done) => {
   expect(lt!.apply(logic,[{},1,2,3])).toBeTruthy();
   expect(lt!.apply(logic,[{},1,4,3])).toBeFalsy();
   expect(lt!.apply(logic,[{},2,3,1])).toBeFalsy();
-
   
   let lte = logic.oper("<=");
   expect(lte).toBeDefined();
@@ -50,10 +49,90 @@ test( "Relational", (done) => {
   expect(ne).toBeDefined();
   expect(typeof ne).toBe("function");
   expect(ne!.apply(logic,[{},1,1])).toBeFalsy();
+  expect(ne!.apply(logic,[{},2,2])).toBeFalsy();
   expect(ne!.apply(logic,[{},1,"1"])).toBeFalsy();
   expect(ne!.apply(logic,[{},1,2])).toBeTruthy();
   expect(ne!.apply(logic,[{},1,"2"])).toBeTruthy();
   expect(ne!.apply(logic,[{},0,""])).toBeFalsy();
+  expect(ne!.apply(logic,[{},true,true])).toBeFalsy();
+  expect(ne!.apply(logic,[{},true,"1"])).toBeFalsy();
+  expect(ne!.apply(logic,[{},true,1])).toBeFalsy();
+  expect(ne!.apply(logic,[{},true,""])).toBeTruthy();
+  expect(ne!.apply(logic,[{},true,0])).toBeTruthy();
+  expect(ne!.apply(logic,[{},true,false])).toBeTruthy();
+  expect(ne!.apply(logic,[{},false,false])).toBeFalsy();
+  expect(ne!.apply(logic,[{},false,""])).toBeFalsy();
+  expect(ne!.apply(logic,[{},false,0])).toBeFalsy();
+  expect(ne!.apply(logic,[{},false,1])).toBeTruthy();
+  expect(ne!.apply(logic,[{},false,"1"])).toBeTruthy();
+  expect(ne!.apply(logic,[{},false,true])).toBeTruthy();
+
+  let tne = logic.oper("!==");
+  expect(tne).toBeDefined();
+  expect(typeof tne).toBe("function");
+  expect(tne!.apply(logic,[{},1,1])).toBeFalsy();
+  expect(tne!.apply(logic,[{},2,2])).toBeFalsy();
+  //expect(tne!.apply(logic,[{},1,"1"])).toBeTruthy();
+  expect(tne!.apply(logic,[{},1,2])).toBeTruthy();
+  expect(tne!.apply(logic,[{},1,"2"])).toBeTruthy();
+  //expect(tne!.apply(logic,[{},0,""])).toBeTruthy();
+  expect(tne!.apply(logic,[{},true,true])).toBeFalsy();
+  //expect(tne!.apply(logic,[{},true,"1"])).toBeTruthy();
+  //expect(tne!.apply(logic,[{},true,1])).toBeTruthy();
+  expect(tne!.apply(logic,[{},true,""])).toBeTruthy();
+  expect(tne!.apply(logic,[{},true,0])).toBeTruthy();
+  expect(tne!.apply(logic,[{},true,false])).toBeTruthy();
+  expect(tne!.apply(logic,[{},false,false])).toBeFalsy();
+  //expect(tne!.apply(logic,[{},false,""])).toBeTruthy();
+  //expect(tne!.apply(logic,[{},false,0])).toBeTruthy();
+  expect(tne!.apply(logic,[{},false,1])).toBeTruthy();
+  expect(tne!.apply(logic,[{},false,"1"])).toBeTruthy();
+  expect(tne!.apply(logic,[{},false,true])).toBeTruthy();
+
+  let equal = logic.oper("==");
+  expect(equal).toBeDefined();
+  expect(typeof equal).toBe("function");
+  expect(equal!.apply(logic,[{},1,1])).toBeTruthy();
+  expect(equal!.apply(logic,[{},2,2])).toBeTruthy();
+  expect(equal!.apply(logic,[{},1,"1"])).toBeTruthy();
+  expect(equal!.apply(logic,[{},1,2])).toBeFalsy();
+  expect(equal!.apply(logic,[{},1,"2"])).toBeFalsy();
+  expect(equal!.apply(logic,[{},0,""])).toBeTruthy();
+  expect(equal!.apply(logic,[{},true,true])).toBeTruthy();
+  expect(equal!.apply(logic,[{},true,"1"])).toBeTruthy();
+  expect(equal!.apply(logic,[{},true,1])).toBeTruthy();
+  expect(equal!.apply(logic,[{},true,""])).toBeFalsy();
+  expect(equal!.apply(logic,[{},true,0])).toBeFalsy();
+  expect(equal!.apply(logic,[{},true,false])).toBeFalsy();
+  expect(equal!.apply(logic,[{},false,false])).toBeTruthy();
+  expect(equal!.apply(logic,[{},false,""])).toBeTruthy();
+  expect(equal!.apply(logic,[{},false,0])).toBeTruthy();
+  expect(equal!.apply(logic,[{},false,1])).toBeFalsy();
+  expect(equal!.apply(logic,[{},false,"1"])).toBeFalsy();
+  expect(equal!.apply(logic,[{},false,true])).toBeFalsy();
+
+  let typeEqual = logic.oper("===");
+  expect(typeEqual).toBeDefined();
+  expect(typeof typeEqual).toBe("function");
+  expect(typeEqual!.apply(logic,[{},1,1])).toBeTruthy();
+  expect(typeEqual!.apply(logic,[{},2,2])).toBeTruthy();
+  expect(typeEqual!.apply(logic,[{},1,"1"])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},1,2])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},1,"2"])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},0,""])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},true,true])).toBeTruthy();
+  expect(typeEqual!.apply(logic,[{},true,"1"])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},true,1])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},true,""])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},true,0])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},true,false])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},false,false])).toBeTruthy();
+  expect(typeEqual!.apply(logic,[{},false,""])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},false,0])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},false,1])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},false,"1"])).toBeFalsy();
+  expect(typeEqual!.apply(logic,[{},false,true])).toBeFalsy();
+  done();
 })
 
 
