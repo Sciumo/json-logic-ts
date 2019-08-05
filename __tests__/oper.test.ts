@@ -79,4 +79,3 @@ test( "Arithmetic", (done) => {
   expect(mod!.apply(logic,[{},50,3])).toEqual(2)
   done();
 })
-
