@@ -246,12 +246,14 @@ export class Logic implements ILogic {
     return a / b;
   }
   divide = this["/"];
-  min(data: any, ...values: number[]) {
+  "min"(data: any, ...values: number[]) {
     return Math.min(...values);
   }
-  max(data: any, ...values: number[]) {
+  minimum = this["min"];
+  "max"(data: any, ...values: number[]) {
     return Math.max(...values);
   }
+  maximum = this["max"];
   merge(data: any, ...values: any[]) {
     return values.reduce(
       function(a: any, b: any) {

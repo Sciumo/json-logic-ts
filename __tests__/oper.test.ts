@@ -48,6 +48,26 @@ test( "Relational", (done) => {
   expect(gte!.apply(logic,[{},2,1,1])).toBeTruthy();
   expect(!gte!.apply(logic,[{},2,1,1])).toBeFalsy();
   expect(gte!.apply(logic,[{},2,1,1])).toEqual(!lt!.apply(logic,[{},2,1,1]));
+
+  let min = logic.oper("min");
+  expect(min).toBeDefined();
+  expect(typeof min).toBe("function");
+  expect(min!.apply(logic,[{},1,1])).toEqual(1);
+  expect(min!.apply(logic,[{},1,2])).toEqual(1);
+  expect(min!.apply(logic,[{},2,1])).toEqual(1);
+  expect(min!.apply(logic,[{},2,1,3])).toEqual(1);
+  expect(min!.apply(logic,[{},2,"1",3])).toEqual(1);
+  expect(min!.apply(logic,[{},2,"",3])).toEqual(0);
+  
+  let max = logic.oper("max");
+  expect(max).toBeDefined();
+  expect(typeof max).toBe("function");
+  expect(max!.apply(logic,[{},1,1])).toEqual(1);
+  expect(max!.apply(logic,[{},2,1])).toEqual(2);
+  expect(max!.apply(logic,[{},1,2])).toEqual(2);
+  expect(max!.apply(logic,[{},1,2,3])).toEqual(3);
+  expect(max!.apply(logic,[{},1,3,1])).toEqual(3);
+  expect(max!.apply(logic,[{},1,"2"])).toEqual(2);
   done();
 })
 
