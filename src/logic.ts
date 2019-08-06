@@ -68,7 +68,7 @@ export class Logic implements ILogic {
     }
     return true;
   }
-  equal = this["=="]
+  coercionEqual = this["=="]
   "==="(data: any, ...values:any[]) {
     if( values.length < 2 ){
       return false;
@@ -81,7 +81,7 @@ export class Logic implements ILogic {
     }
     return true;
   }
-  typeEqual = this["==="]
+  equal = this["==="]
   "!="(data: any, ...values:any[]) {
     if( values.length < 1 ){
       return false;
@@ -94,7 +94,7 @@ export class Logic implements ILogic {
     }
     return true;
   }
-  notEqual = this["!="];
+  coercionNotEqual = this["!="];
   "!=="(data: any, ...values:any[]) {
     if( values.length < 1 ){
       return false;
@@ -107,7 +107,7 @@ export class Logic implements ILogic {
     }
     return true;
   }
-  typeNotEqual = this["!=="];
+  notEqual = this["!=="];
   ">"(data: any, ...values:any[]) {
     if( values.length < 2 ){
       return false;
