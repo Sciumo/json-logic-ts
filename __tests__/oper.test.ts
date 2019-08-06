@@ -48,7 +48,50 @@ test( "Relational", (done) => {
   expect(gte!.apply(logic,[{},2,1,1])).toBeTruthy();
   expect(!gte!.apply(logic,[{},2,1,1])).toBeFalsy();
   expect(gte!.apply(logic,[{},2,1,1])).toEqual(!lt!.apply(logic,[{},2,1,1]));
+  done();
+})
+
+
+test( "Arithmetic", (done) => {
+  //testing multiplication operator
+  let mult = logic.oper("*");
+  expect(mult).toBeDefined();
+  expect(typeof mult).toBe("function");
+  expect(mult!.apply(logic,[{},1,2,"3",4,5])).toEqual(120);
   
+  //testing sum operator
+  let sum = logic.oper("+");
+  expect(sum).toBeDefined();
+  expect(typeof sum).toBe("function");
+  expect(sum!.apply(logic,[{},2,2])).toEqual(4);
+  expect(sum!.apply(logic,[{},2,2,2])).toEqual(6);
+  expect(sum!.apply(logic,[{},"2",2,2])).toEqual(6);
+  
+  //testing division operator
+  let div = logic.oper("/");
+  expect(div).toBeDefined();
+  expect(typeof div).toBe("function");
+  expect(div!.apply(logic,[{},2,2])).toEqual(1);
+  expect(div!.apply(logic,[{},"4",2])).toEqual(2);
+  
+  //testing subtraction operator
+  let sub = logic.oper("-");
+  expect(sub).toBeDefined();
+  expect(typeof sub).toBe("function");
+  expect(sub!.apply(logic,[{},2,2])).toEqual(0);
+  expect(sub!.apply(logic,[{},"6",2])).toEqual(4);
+
+  //testing modulo operator
+  let mod = logic.oper("%")
+  expect(mod).toBeDefined();
+  expect(typeof mod).toBe("function");
+  expect(mod!.apply(logic,[{},50,2])).toEqual(0)
+  expect(mod!.apply(logic,[{},77,2])).toEqual(1)
+  expect(mod!.apply(logic,[{},50,3])).toEqual(2)
+  done();
+})
+
+test("Logic", (done) =>{
   //testing type coercion not equal
   let ne = logic.oper("!=");
   expect(ne).toBeDefined();
@@ -171,45 +214,5 @@ test( "Relational", (done) => {
   expect(not!.apply(logic,[{},"hello"])).toEqual(!notNot!.apply(logic,[{},"hello"]));
   expect(not!.apply(logic,[{},""])).toBeTruthy();
   expect(not!.apply(logic,[{},""])).toEqual(!notNot!.apply(logic,[{},""]));
-  done();
-})
-
-
-test( "Arithmetic", (done) => {
-  //testing multiplication operator
-  let mult = logic.oper("*");
-  expect(mult).toBeDefined();
-  expect(typeof mult).toBe("function");
-  expect(mult!.apply(logic,[{},1,2,"3",4,5])).toEqual(120);
-  
-  //testing sum operator
-  let sum = logic.oper("+");
-  expect(sum).toBeDefined();
-  expect(typeof sum).toBe("function");
-  expect(sum!.apply(logic,[{},2,2])).toEqual(4);
-  expect(sum!.apply(logic,[{},2,2,2])).toEqual(6);
-  expect(sum!.apply(logic,[{},"2",2,2])).toEqual(6);
-  
-  //testing division operator
-  let div = logic.oper("/");
-  expect(div).toBeDefined();
-  expect(typeof div).toBe("function");
-  expect(div!.apply(logic,[{},2,2])).toEqual(1);
-  expect(div!.apply(logic,[{},"4",2])).toEqual(2);
-  
-  //testing subtraction operator
-  let sub = logic.oper("-");
-  expect(sub).toBeDefined();
-  expect(typeof sub).toBe("function");
-  expect(sub!.apply(logic,[{},2,2])).toEqual(0);
-  expect(sub!.apply(logic,[{},"6",2])).toEqual(4);
-
-  //testing modulo operator
-  let mod = logic.oper("%")
-  expect(mod).toBeDefined();
-  expect(typeof mod).toBe("function");
-  expect(mod!.apply(logic,[{},50,2])).toEqual(0)
-  expect(mod!.apply(logic,[{},77,2])).toEqual(1)
-  expect(mod!.apply(logic,[{},50,3])).toEqual(2)
   done();
 })
