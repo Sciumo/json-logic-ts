@@ -178,7 +178,12 @@ export class Logic implements ILogic {
   }
   notNot = this["!!"];
   "!"(data: any, ...values:any[]) {
-    return !this.notNot(values);
+    for( let v of values ){
+      if( !this.truthy(v) ){
+        return true;
+      }
+    }
+    return false;
   }
   not = this["!"]
   "%"(data: any, a: number, b: number) {
