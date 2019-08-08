@@ -275,3 +275,7 @@ test("String", (done) =>{
 test("Logic", (done) =>{
   done();
 })
+
+test("Access", (done) =>{
+  done();
+})
