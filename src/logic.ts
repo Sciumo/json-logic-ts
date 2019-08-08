@@ -194,10 +194,11 @@ export class Logic implements ILogic {
     if (!b || typeof b.indexOf === "undefined") return false;
     return b.indexOf(a) !== -1;
   }
-  cat(data: any, ...values: any[]) {
+  "cat"(data: any, ...values: any[]) {
     return Array.prototype.join.call(values, "");
   }
-  substr(data: any, source: any, start: number, end: number | undefined) {
+  concat = this["cat"]
+  "substr"(data: any, source: any, start: number, end: number | undefined) {
     if (end && end < 0) {
       // JavaScript doesn't support negative end, this emulates PHP behavior
       var temp = String(source).substr(start);
@@ -205,6 +206,7 @@ export class Logic implements ILogic {
     }
     return String(source).substr(start, end);
   }
+  substring = this["substr"]
   "+"(data: any, ...values: any[]) {
     return Array.prototype.reduce.call(
       values,

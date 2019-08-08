@@ -238,3 +238,28 @@ test("Logic", (done) =>{
   expect(not!.apply(logic,[{},""])).toEqual(!notNot!.apply(logic,[{},""]));
   done();
 })
+
+test("Array", (done) =>{
+  done();
+})
+
+test("String", (done) =>{
+  let concat = logic.oper("cat");
+  expect(concat).toBeDefined();
+  expect(typeof concat).toBe("function");
+  expect(concat!.apply(logic,[{},"Hello", "World"])).toEqual("HelloWorld");
+  expect(concat!.apply(logic,[{},"Hello", ""])).toEqual("Hello");
+
+  let sub = logic.oper("substr");
+  expect(sub).toBeDefined();
+  expect(typeof sub).toBe("function");
+  expect(sub!.apply(logic,[{},"jsonlogic", 4])).toEqual("logic");
+  expect(sub!.apply(logic,[{},"jsonlogic", -5])).toEqual("logic");
+  expect(sub!.apply(logic,[{},"jsonlogic", 1, 3])).toEqual("son");
+  expect(sub!.apply(logic,[{},"jsonlogic", 4, -2])).toEqual("log");
+  done();
+})
+
+test("Logic", (done) =>{
+  done();
+})
