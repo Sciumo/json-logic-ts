@@ -190,14 +190,15 @@ export class Logic implements ILogic {
     return a % b;
   }
   mod = this["%"];
-  in(data: any, a: any, b: { indexOf: (arg0: any) => number }) {
+  "in"(data: any, a: any, b: { indexOf: (arg0: any) => number }) {
     if (!b || typeof b.indexOf === "undefined") return false;
     return b.indexOf(a) !== -1;
   }
+  inside = this["in"];
   "cat"(data: any, ...values: any[]) {
     return Array.prototype.join.call(values, "");
   }
-  concat = this["cat"]
+  concat = this["cat"];
   "substr"(data: any, source: any, start: number, end: number | undefined) {
     if (end && end < 0) {
       // JavaScript doesn't support negative end, this emulates PHP behavior
@@ -206,7 +207,7 @@ export class Logic implements ILogic {
     }
     return String(source).substr(start, end);
   }
-  substring = this["substr"]
+  substring = this["substr"];
   "+"(data: any, ...values: any[]) {
     return Array.prototype.reduce.call(
       values,
@@ -256,7 +257,7 @@ export class Logic implements ILogic {
     return Math.max(...values);
   }
   maximum = this["max"];
-  merge(data: any, ...values: any[]) {
+  "merge"(data: any, ...values: any[]) {
     return values.reduce(
       function(a: any, b: any) {
         if (Array.isArray(a)) {
@@ -269,6 +270,7 @@ export class Logic implements ILogic {
       }
     );
   }
+  combine = this["merge"];
   var(data: any, a: string | null, b: undefined) {
     var not_found = b === undefined ? null : b;
     if (typeof a === "undefined" || a === "" || a === null) {

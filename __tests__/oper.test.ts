@@ -240,6 +240,18 @@ test("Logic", (done) =>{
 })
 
 test("Array", (done) =>{
+  let inside = logic.oper("in");
+  expect(inside).toBeDefined();
+  expect(typeof inside).toBe("function");
+  expect(inside!.apply(logic,[{},"Hello", "Hello World"])).toBeTruthy();
+  expect(inside!.apply(logic,[{},"Hllo", "Hello World"])).toBeFalsy();
+  expect(inside!.apply(logic,[{},1, [1,2,3,4]])).toBeTruthy();
+  expect(inside!.apply(logic,[{},1, [2,3,4]])).toBeFalsy();
+
+  let merge = logic.oper("merge");
+  expect(merge).toBeDefined();
+  expect(typeof merge).toBe("function");
+  expect(merge!.apply(logic,[{},[1,2],[3,4]])).toEqual([1,2,3,4]);
   done();
 })
 
