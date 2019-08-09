@@ -413,7 +413,7 @@ export class Logic implements ILogic {
    * @param data
    * @param operations Uses the default Logic operations, which can be expanded.
    */
-  applyPred(preds: Clauses, data: {}): any {
+  applyPred(preds: Clauses, data: any = {}): any {
     // Does this array contain logic? Only one way to find out.
     var _this = this;
 
@@ -526,12 +526,16 @@ export class Logic implements ILogic {
 
     // Everyone else gets immediate depth-first recursion
     values = values.map(function(val: any) {
+      switch( typeof val ){
+        case "number":
+        case "string": return val;
+      }
       return _this.applyPred(val, data);
     });
 
     if (typeof operation === "function") {
       let opFun = operation as Function;
-      return opFun.apply(this, ...[data, values]);
+      return opFun.apply(this, [data, ...values]);
     }
 
     throw new Error("Unrecognized operation " + op);
