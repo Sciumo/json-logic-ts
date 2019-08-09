@@ -364,13 +364,18 @@ export class Logic implements ILogic {
     let len = values.length - 1;
     let result = this.applyPred(values[i], data);
     let isTrue = this.truthy(result);
-    while (i < len && !isTrue) {
+    while (i < len) {
       result = this.applyPred(values[i], data);
       isTrue = this.truthy(result);
+      if(isTrue)
+        break;
       i += 2;
     }
     if (i < len) {
       return this.applyPred(values[i + 1], data);
+    }
+    else if (i == len) {
+      return this.applyPred(values[i], data);
     }
     return null;
   }

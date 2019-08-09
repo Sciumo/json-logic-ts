@@ -276,7 +276,10 @@ test("Logic", (done) =>{
   let select = logic.oper("?:");
   expect(select).toBeDefined();
   expect(typeof select).toBe("function");
-  expect(select!.apply(logic,[{},0,1,2])).toEqual(2);
+  expect(select!.apply(logic,[{},true,1])).toEqual(1);
+  expect(select!.apply(logic,[{},false,1,2])).toEqual(2);
+  expect(select!.apply(logic,[{},false,1,true,2])).toEqual(2);
+  expect(select!.apply(logic,[{},false,1,false,2,3])).toEqual(3);
   done();
 })
 
