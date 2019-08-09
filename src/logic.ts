@@ -374,6 +374,7 @@ export class Logic implements ILogic {
     }
     return null;
   }
+  select = this["?:"];
 
   /**
    * Look
