@@ -280,6 +280,12 @@ test("Logic", (done) =>{
   expect(select!.apply(logic,[{},false,1,2])).toEqual(2);
   expect(select!.apply(logic,[{},false,1,true,2])).toEqual(2);
   expect(select!.apply(logic,[{},false,1,false,2,3])).toEqual(3);
+  expect(select!.apply(logic,[{},["and",true, true],1])).toEqual(1);
+  expect(select!.apply(logic,[{},["and",false,true],1,2])).toEqual(2);
+  expect(select!.apply(logic,[{},["and",true,false],1,2])).toEqual(2);
+  expect(select!.apply(logic,[{},["or",true, true],1])).toEqual(1);
+  expect(select!.apply(logic,[{},["or",false,true],1,2])).toEqual(1);
+  expect(select!.apply(logic,[{},["or",true,false],1,2])).toEqual(1);
   done();
 })
 
