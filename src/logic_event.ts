@@ -17,7 +17,7 @@ export const LEMSEED = 0xbeef;
 export var LEMNULLHASH = h64(LEMSEED).digest();
 
 export function lemFields(obj:any) : any[] | null {
-  let fields = Reflect.getOwnMetadata(LEMFIELDSKEY,obj);
+  let fields = Reflect.getMetadata(LEMFIELDSKEY,obj);
   if( Array.isArray(fields) ){
     return fields;
   }
@@ -87,9 +87,9 @@ export function LEMClass<T extends { new (...args: any[]): {} }>(ctor: T) {
 }
 
 export function LEMField(target: object, propertyKey: string) {
-  let columns: string[] = Reflect.getMetadata(LEMFIELDSKEY, target.constructor) || [];
+  let columns: string[] = Reflect.getMetadata(LEMFIELDSKEY, target) || [];
   columns.push(propertyKey);
-  Reflect.defineMetadata(LEMFIELDSKEY, columns, target.constructor);
+  Reflect.defineMetadata(LEMFIELDSKEY, columns, target);
 }
 
 export class FactBase extends Map<UINT, any>{
