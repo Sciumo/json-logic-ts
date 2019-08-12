@@ -1,4 +1,5 @@
 import JL from "../";
+import { executionAsyncId } from "async_hooks";
 
 const logic = new JL();
 
@@ -10,18 +11,24 @@ test( "Operator Lookup", (done) => {
   let op = logic.oper("<");
   expect(op).toBeDefined();
   expect(typeof op).toBe("function");
+  expect(logic.applyPred({"<":[1,2]}, {} )).toBeTruthy();
   done();
 })
 
 test( "Relational", (done) => {
   //testing Less than operator
   let lt = logic.oper("<");
+  let data = {};
+  let args = [1,2]
   expect(lt).toBeDefined();
   expect(typeof lt).toBe("function");
   expect(lt!.apply(logic,[{},1,2])).toBeTruthy();
   expect(lt!.apply(logic,[{},1,2,3])).toBeTruthy();
   expect(lt!.apply(logic,[{},1,4,3])).toBeFalsy();
   expect(lt!.apply(logic,[{},2,3,1])).toBeFalsy();
+  expect(logic.applyPred({"<":args})).toBeTruthy();
+  args = [1,2,3];
+  expect(logic.applyPred({"<":args})).toBeTruthy();
   
   //testing less than equal operator
   let lte = logic.oper("<=");
