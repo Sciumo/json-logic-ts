@@ -271,7 +271,7 @@ export class Logic implements ILogic {
     );
   }
   combine = this["merge"];
-  var(data: any, a: string | null, b: undefined) {
+  "var"(data: any, a: string | null, b: undefined) {
     var not_found = b === undefined ? null : b;
     if (typeof a === "undefined" || a === "" || a === null) {
       return data;
@@ -289,6 +289,7 @@ export class Logic implements ILogic {
     }
     return data;
   }
+  val = this["var"];
 
   missing(data: any, ...values: any[]) {
     /*
@@ -311,10 +312,11 @@ export class Logic implements ILogic {
 
     return missing;
   }
+  miss = this["missing"];
 
-  missing_some(data: any, need_count: number, options: { length: number }) {
+  "missing_some"(data: any, need_count: number, options: any[]) {
     // missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.
-    var are_missing = this.missing(data);
+    var are_missing = this.missing(data,options);
 
     if (options.length - are_missing.length >= need_count) {
       return [];
@@ -322,6 +324,7 @@ export class Logic implements ILogic {
       return are_missing;
     }
   }
+  missSome = this["missing_some"];
 
   is_logic(logic: Clause | {} | null) {
     return (

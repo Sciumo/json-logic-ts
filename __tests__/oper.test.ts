@@ -19,7 +19,7 @@ test( "Relational", (done) => {
   //testing Less than operator
   let lt = logic.oper("<");
   let data = {};
-  let args: (string | number | Boolean)[] = [1,2]
+  let args: any[] = [1,2]
   expect(lt).toBeDefined();
   expect(typeof lt).toBe("function");
   expect(logic.applyPred({"<":args})).toBeTruthy();
@@ -97,7 +97,7 @@ test( "Relational", (done) => {
 
 
 test( "Arithmetic", (done) => {
-  let args: (string | number | Boolean)[] = [1,2,"3",4,5];
+  let args: any[] = [1,2,"3",4,5];
   //testing multiplication operator
   let mult = logic.oper("*");
   expect(mult).toBeDefined();
@@ -147,7 +147,7 @@ test( "Arithmetic", (done) => {
 })
 
 test("Logic", (done) =>{
-  let args: (string | number | Boolean)[] = [1,1];
+  let args: any[] = [1,1];
 
   //testing type coercion not equal
   let ne = logic.oper("!=");
@@ -357,7 +357,7 @@ test("Logic", (done) =>{
 })
 
 test("Array", (done) =>{
-  let args: (string | number | Boolean | Array<string | number | Boolean>)[] = ["Hello","Hello World"];
+  let args: any[] = ["Hello","Hello World"];
   let inside = logic.oper("in");
   expect(inside).toBeDefined();
   expect(typeof inside).toBe("function");
@@ -378,7 +378,7 @@ test("Array", (done) =>{
 })
 
 test("String", (done) =>{
-  let args: (string | number | Boolean)[] = ["Hello","World"];
+  let args: any[] = ["Hello","World"];
   let concat = logic.oper("cat");
   expect(concat).toBeDefined();
   expect(typeof concat).toBe("function");
@@ -401,7 +401,7 @@ test("String", (done) =>{
 })
 
 test("Logic", (done) =>{
-  let args: (string | number | Boolean)[] = [true,1];
+  let args: any[] = [true,1];
   let select = logic.oper("?:");
   expect(select).toBeDefined();
   expect(typeof select).toBe("function");
@@ -412,21 +412,33 @@ test("Logic", (done) =>{
   expect(logic.applyPred({"?:":args})).toEqual(2);
   args = [false,1,false,2,3];
   expect(logic.applyPred({"?:":args})).toEqual(3);
-
-  /*
-  expect(logic.applyPred({"and":[true,true,true]})).toBeTruthy();
-  expect(logic.applyPred({"and":[false,true,true]})).toBeFalsy();
-  expect(logic.applyPred({"and":[true,false,true]})).toBeFalsy();
-  expect(logic.applyPred({"and":[true,true,false]})).toBeFalsy();
-
-  expect(logic.applyPred({"or":[false,false,false]})).toBeFalsy();
-  expect(logic.applyPred({"or":[false,true,false]})).toBeTruthy();
-  expect(logic.applyPred({"or":[true,false,false]})).toBeTruthy();
-  expect(logic.applyPred({"or":[false,true,false]})).toBeTruthy();
-  */
   done();
 })
 
 test("Access", (done) =>{
+  let val = logic.oper("var");
+  expect(val).toBeDefined();
+  expect(typeof val).toBe("function");
+  let args: any[] = ["hello"];
+  expect(logic.applyPred({"var":args},{"hello":"hello world","pi":3.14,"num":11})).toEqual("hello world");
+  args = [""];
+  expect(logic.applyPred({"var":args},{"hello":"hello world","pi":3.14,"num":11})).toEqual({"hello":"hello world","pi":3.14,"num":11});
+  args = ["not"];
+  expect(logic.applyPred({"var":args},{"hello":"hello world","pi":3.14,"num":11})).toEqual(null);
+  args = ["not",26];
+  expect(logic.applyPred({"var":args},{"hello":"hello world","pi":3.14,"num":11})).toEqual(26);
+
+  let missing = logic.oper("missing");
+  expect(missing).toBeDefined();
+  expect(typeof missing).toBe("function");
+  expect(logic.applyPred({"missing":["hello","not","pi"]},{"hello":"hello world","pi":3.14,"num":11})).toEqual(["not"]);
+  expect(logic.applyPred({"missing":["hello","not","there","pi"]},{"hello":"hello world","pi":3.14,"num":11})).toEqual(["not","there"]);
+  expect(logic.applyPred({"missing":["hello","pi"]},{"hello":"hello world","pi":3.14,"num":11})).toEqual([]);
+  
+  let missome = logic.oper("missing_some");
+  expect(missome).toBeDefined();
+  expect(typeof missome).toBe("function");
+  expect(logic.applyPred({"missing_some":[2,["hello","not","there","pi"]]},{"hello":"hello world","pi":3.14,"num":11})).toEqual([]);
+  expect(logic.applyPred({"missing_some":[3,["hello","not","there","pi"]]},{"hello":"hello world","pi":3.14,"num":11})).toEqual(["not","there"]);
   done();
 })
