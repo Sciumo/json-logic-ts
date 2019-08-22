@@ -251,6 +251,39 @@ test("Array", (done) =>{
   expect(merge).toBeDefined();
   expect(typeof merge).toBe("function");
   expect(logic.applyPred({"merge":[[1,2],[3,4]]})).toEqual([1,2,3,4]);
+
+  let choose = logic.oper("filter");
+  expect(choose).toBeDefined();
+  expect(logic.applyPred({"filter":[[1,2,3],{">":[{"var":""},2]}]})).toEqual([3])
+  expect(logic.applyPred({"filter":[{"var":"integers"},{">":[{"var":""},2]}]},{"integers":[1,2,3,4,5]})).toEqual([3,4,5])
+  
+  let doAll = logic.oper("map");
+  expect(doAll).toBeDefined();
+  expect(logic.applyPred({"map":[[1,2,3],{"+":[{"var":""},2]}]})).toEqual([3,4,5])
+
+  let reduce = logic.oper("reduce");
+  expect(reduce).toBeDefined();
+  expect(logic.applyPred({"reduce":[[1,2,3,4,5],{"+":[{"var":"current"},{"var":"accumulator"}]},0]})).toEqual(15);
+  expect(logic.applyPred({"reduce":[[1,2,3,4,5],{"*":[{"var":"current"},{"var":"accumulator"}]},0]})).toEqual(0);
+  expect(logic.applyPred({"reduce":[[1,2,3,4,5],{"*":[{"var":"current"},{"var":"accumulator"}]},1]})).toEqual(120);
+  expect(logic.applyPred({"reduce":[[],{"*":[{"var":"current"},{"var":"accumulator"}]},1]})).toEqual(1);
+
+  let total = logic.oper("all");
+  expect(total).toBeDefined();
+  expect(logic.applyPred({"all":[[1,2,3],{">":[{"var":""},0]}]})).toBeTruthy;
+  expect(logic.applyPred({"all":[[1,2,3],{">":[{"var":""},2]}]})).toBeFalsy;
+
+  let none = logic.oper("none");
+  expect(none).toBeDefined();
+  expect(logic.applyPred({"none":[[1,2,3],{">":[{"var":""},0]}]})).toBeFalsy;
+  expect(logic.applyPred({"none":[[1,2,3],{">":[{"var":""},2]}]})).toBeFalsy;
+  expect(logic.applyPred({"none":[[1,2,3],{">":[{"var":""},4]}]})).toBeTruthy;
+
+  let some = logic.oper("some");
+  expect(some).toBeDefined();
+  expect(logic.applyPred({"some":[[1,2,3],{">":[{"var":""},0]}]})).toBeTruthy;
+  expect(logic.applyPred({"some":[[1,2,3],{">":[{"var":""},2]}]})).toBeTruthy;
+  expect(logic.applyPred({"some":[[1,2,3],{">":[{"var":""},4]}]})).toBeFalsy;
   done();
 })
 
