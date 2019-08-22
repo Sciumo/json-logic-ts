@@ -409,7 +409,23 @@ export class Logic implements ILogic {
     return current; // Last
   }
   either = this["or"];
-
+/*
+  //takes two value inputs
+  "all"(data: any, a: any, b: { indexOf: (arg0: any) => number }): any {
+    let scopedData = this.applyPred(a, data);
+    let scopedLogic = b;
+    // All of an empty set is false. Note, some and none have correct fallback after the for loop
+    if (!scopedData.length) {
+      return false;
+    }
+    for (let i = 0; i < scopedData.length; i += 1) {
+      if (!this.truthy(this.applyPred(scopedLogic, scopedData[i]))) {
+        return false; // First falsy, short circuit
+      }
+    }
+    return true; // All were truthy
+  } 
+  */
   /**
    * Look
    * @param ops
