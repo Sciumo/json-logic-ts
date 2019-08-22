@@ -412,6 +412,24 @@ test("Logic", (done) =>{
   expect(logic.applyPred({"?:":args})).toEqual(2);
   args = [false,1,false,2,3];
   expect(logic.applyPred({"?:":args})).toEqual(3);
+
+  let also = logic.oper("and");
+  expect(also).toBeDefined();
+  expect(logic.applyPred({"and":[true,true,true]})).toBeTruthy();
+  expect(logic.applyPred({"and":[true,true,false]})).toBeFalsy();
+  expect(logic.applyPred({"and":[true,false,true]})).toBeFalsy();
+  expect(logic.applyPred({"and":[false,true,true]})).toBeFalsy();
+  expect(logic.applyPred({"and":[true,true,1]})).toEqual(1);
+  expect(logic.applyPred({"and":[0,true,true]})).toEqual(0);
+
+  let either = logic.oper("or");
+  expect(either).toBeDefined();
+  expect(logic.applyPred({"or":[false,false,false]})).toBeFalsy;
+  expect(logic.applyPred({"or":[false,true,false]})).toBeTruthy;
+  expect(logic.applyPred({"or":[false,false,true]})).toBeTruthy;
+  expect(logic.applyPred({"or":[true,false,false]})).toBeTruthy;
+  expect(logic.applyPred({"or":[false,false,1]})).toEqual(1);
+  expect(logic.applyPred({"or":[false,1,false]})).toEqual(1);
   done();
 })
 

@@ -384,6 +384,32 @@ export class Logic implements ILogic {
   }
   select = this["?:"];
 
+  "and"(data: any, ...values: Clause[]): any {
+    var current;
+    // Return first falsy, or last
+    for (let i = 0; i < values.length; i += 1) {
+      current = this.applyPred(values[i], data);
+      if (!this.truthy(current)) {
+        return current;
+      }
+    }
+    return current; // Last
+  }
+  also = this["and"];
+
+  "or"(data: any, ...values: Clause[]): any {
+    var current;
+    // Return first truthy, or last
+    for (let i = 0; i < values.length; i += 1) {
+      current = this.applyPred(values[i], data);
+      if (this.truthy(current)) {
+        return current;
+      }
+    }
+    return current; // Last
+  }
+  either = this["or"];
+
   /**
    * Look
    * @param ops
