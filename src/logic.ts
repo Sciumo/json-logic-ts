@@ -384,6 +384,112 @@ export class Logic implements ILogic {
   }
   select = this["?:"];
 
+  "and"(data: any, ...values: Clause[]): any {
+    var current;
+    // Return first falsy, or last
+    for (let i = 0; i < values.length; i += 1) {
+      current = this.applyPred(values[i], data);
+      if (!this.truthy(current)) {
+        return current;
+      }
+    }
+    return current; // Last
+  }
+  also = this["and"];
+
+  "or"(data: any, ...values: Clause[]): any {
+    var current;
+    // Return first truthy, or last
+    for (let i = 0; i < values.length; i += 1) {
+      current = this.applyPred(values[i], data);
+      if (this.truthy(current)) {
+        return current;
+      }
+    }
+    return current; // Last
+  }
+  either = this["or"];
+
+  "filter"(data: any, ...values: Clause[]): any {
+    let _this = this;
+    let scopedData = this.applyPred(values[0], data);
+    let scopedLogic = values[1];
+
+    if (!Array.isArray(scopedData)) {
+      return [];
+    }
+    // Return only the elements from the array in the first argument,
+    // that return truthy when passed to the logic in the second argument.
+    // For parity with JavaScript, reindex the returned array
+    return scopedData.filter(function(datum) {
+      return _this.truthy(_this.applyPred(scopedLogic, datum));
+    });
+  }
+  choose = this["filter"];
+
+  "map"(data: any, ...values: Clause[]): any {
+    let _this = this;
+    let scopedData = this.applyPred(values[0], data);
+    let scopedLogic = values[1];
+
+    if (!Array.isArray(scopedData)) {
+      return [];
+    }
+
+    return scopedData.map(function(datum) {
+      return _this.applyPred(scopedLogic, datum);
+    });
+  }
+  doAll = this["map"]
+
+  "reduce"(data: any, ...values: Clause[]): any {
+    let _this = this;
+    let scopedData = this.applyPred(values[0], data);
+    let scopedLogic = values[1];
+    let initial = typeof values[2] !== "undefined" ? values[2] : null;
+
+    if (!Array.isArray(scopedData)) {
+      return initial;
+    }
+
+    return scopedData.reduce(function(accumulator, current) {
+      return _this.applyPred(scopedLogic, {
+        current: current,
+        accumulator: accumulator
+      });
+    }, initial);
+  }
+  remove = this["reduce"];
+
+  //takes two value inputs
+  "all"(data: any, ...values: Clause[]): any {
+    let scopedData = this.applyPred(values[0], data);
+    let scopedLogic = values[1];
+    // All of an empty set is false. Note, some and none have correct fallback after the for loop
+    if (!scopedData.length) {
+      return false;
+    }
+    for (let i = 0; i < scopedData.length; i += 1) {
+      if (!this.truthy(this.applyPred(scopedLogic, scopedData[i]))) {
+        return false; // First falsy, short circuit
+      }
+    }
+    return true; // All were truthy
+  } 
+  total = this["all"];
+
+  "none"(data: any, ...values: Clause[]): any {
+    let filtered = this.applyPred({ "filter": values }, data);
+    return filtered.length === 0;
+  }
+  nothing = this["none"];
+
+  "some"(data: any, ...values: Clause[]): any {
+    let filtered = this.applyPred({ "filter": values }, data);
+    return filtered.length > 0;
+  }
+  few = this["some"];
+
   /**
    * Look
    * @param ops
@@ -448,7 +554,7 @@ export class Logic implements ILogic {
     if (!Array.isArray(values)) {
       values = [values];
     }
-
+    //*
     if (op === "and") {
       // Return first falsy, or last
       for (let i = 0; i < values.length; i += 1) {
@@ -526,7 +632,7 @@ export class Logic implements ILogic {
       filtered = this.applyPred({ filter: values }, data);
       return filtered.length > 0;
     }
-
+    //*/
     // Everyone else gets immediate depth-first recursion
     values = values.map(function(val: any) {
       switch( typeof val ){
